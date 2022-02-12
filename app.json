@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "soundfy-player",
+    "slug": "soundfy-player",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
