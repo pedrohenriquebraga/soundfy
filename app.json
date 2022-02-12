@@ -3,6 +3,7 @@
     "name": "soundfy-player",
     "slug": "soundfy-player",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "assetBundlePatterns": [
       "**/*"
     ]
