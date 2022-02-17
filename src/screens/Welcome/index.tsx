@@ -1,10 +1,19 @@
 import React from 'react';
-import { View,Text } from 'react-native';
-
-// import { Container } from './styles';
+import { Text, TouchableOpacity } from 'react-native';
+import { useThemeController } from '../../contexts/theme';
+import { Container } from './styles';
 
 const Welcome: React.FC = () => {
-  return <Text>Olá</Text>;
+
+  const { toggleTheme } = useThemeController()
+
+  return (
+    <Container>
+      <TouchableOpacity onPress={toggleTheme}>
+        <Text>oi</Text>
+      </TouchableOpacity>
+    </Container>
+  )
 }
 
 export default Welcome;

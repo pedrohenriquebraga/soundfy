@@ -1,1 +1,0 @@
-declare "react-native-get-music-files"

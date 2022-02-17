@@ -1,9 +1,10 @@
 import React from 'react';
 import Routes from "./src/routes"
+import AppLoading from "expo-app-loading"
 import { useFonts } from "expo-font"
 import { Nunito_400Regular } from "@expo-google-fonts/nunito"
 import { Roboto_700Bold, Roboto_500Medium } from "@expo-google-fonts/roboto"
-import AppLoading from "expo-app-loading"
+import { ThemeControllerProvider } from "./src/contexts/theme"
 
 export default function App() {
 
@@ -17,6 +18,8 @@ export default function App() {
     return <AppLoading />
 
   return (
-    <Routes />
+    <ThemeControllerProvider>
+      <Routes />
+    </ThemeControllerProvider>
   );
 }
