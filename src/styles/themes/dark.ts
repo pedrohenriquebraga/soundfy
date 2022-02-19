@@ -6,6 +6,7 @@ export default {
     heading: "#CCC",
     background: "#16171D",
     shape: "#18191F",
+    light_shape: "#19202F",
     primary: "#A498FC",
     secondary: "#FEB6C2"
   }

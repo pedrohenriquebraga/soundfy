@@ -17,7 +17,7 @@ const Welcome: React.FC = () => {
   const navigation = useNavigation()
 
   const handleStart = () => {
-    navigation.navigate("AddName")
+    navigation.navigate("Permissions")
   }
 
   if (onBoarded) {
