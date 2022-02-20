@@ -27,7 +27,9 @@ const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <Container>
+      <Container
+        showsVerticalScrollIndicator={false}        
+      >
         <HeaderContainer>
           <HeaderTitleContainer>
             <HeaderTitle>

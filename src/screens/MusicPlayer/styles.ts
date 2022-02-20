@@ -33,33 +33,32 @@ export const MusicControllersContainer = styled.View`
 
 export const MusicSeekContainer = styled.View`
   margin: 20px 0px;
-`
-
-export const MusicSeek = styled.Slider`
 `;
+
+export const MusicSeek = styled.Slider``;
 
 export const MusicDurationContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
-`
+`;
 
 export const MusicDuration = styled.Text`
   font-size: 14px;
   font-family: ${fonts.text};
   color: ${({ theme }) => theme.colors.heading};
   margin: 0 15px;
-`
+`;
 
 export const MusicControllers = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
   margin-top: -20px;
-`
+`;
 
 export const MusicControllerButton = styled.TouchableOpacity`
   margin: 20px;
-`
+`;
 
 export const MusicExtraControllersContainer = styled.View`
   width: 100%;
@@ -71,10 +70,10 @@ export const MusicExtraControllersContainer = styled.View`
   justify-content: center;
   align-items: center;
   bottom: 0;
-  border-top-left-radius: 50px;
-  border-top-right-radius: 50px;
-`
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+`;
 
 export const MusicExtraControllerButton = styled.TouchableOpacity`
   margin: 0 10px;
-`
+`;

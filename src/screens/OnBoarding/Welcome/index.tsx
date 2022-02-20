@@ -12,16 +12,10 @@ import {
 } from "./styles";
 
 const Welcome: React.FC = () => {
-
-  const [onBoarded] = usePersistedState("@SoundfyPlayer:onBoarded", false)
   const navigation = useNavigation()
 
   const handleStart = () => {
     navigation.navigate("Permissions")
-  }
-
-  if (onBoarded) {
-    navigation.navigate("Home")
   }
 
   return (
