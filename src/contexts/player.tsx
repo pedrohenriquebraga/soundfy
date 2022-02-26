@@ -1,30 +1,37 @@
-import React, { createContext, useContext, useEffect } from "react";
-import { getAllFiles, getFileType } from "../utils/files";
-import * as mime from 'react-native-mime-types'
+import React, { createContext, useContext, useEffect, useState } from "react";
+import * as MediaLibrary from "expo-media-library";
+import { IMusicData } from "../@types/interfaces";
 
-interface IMusic {
-  name: string;
-  path: string;
+interface IPlayerContext {
+  allMusics: IMusicData[];
 }
 
-interface IPlayerContext {}
-
-const PlayerContext = createContext<IPlayerContext>({});
+const PlayerContext = createContext<IPlayerContext>({} as IPlayerContext);
 
 const PlayerProvider: React.FC = ({ children }) => {
+  const [allMusics, setAllMusics] = useState<IMusicData[]>([]);
 
   useEffect(() => {
     (async () => {
-      
-    })()
-  }, [])
+      const assets = await MediaLibrary.getAssetsAsync({
+        mediaType: "audio",
+      });
+
+      const musics = assets.assets.map((a) => {
+        return {
+          name: a.filename,
+          path: a.uri,
+          duration: a.duration,
+          albumId: a.albumId,
+        };
+      });
+
+      setAllMusics(musics);
+    })();
+  }, []);
 
   return (
-    <PlayerContext.Provider 
-      value={{
-
-      }}
-    >
+    <PlayerContext.Provider value={{ allMusics }}>
       {children}
     </PlayerContext.Provider>
   );

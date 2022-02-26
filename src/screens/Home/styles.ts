@@ -58,19 +58,21 @@ export const MusicButton = styled.TouchableOpacity`
 `;
 
 export const MusicContentContainer = styled.View`
+  width: 90%;
   justify-content: center;
-  margin-left: 15px;
+  padding: 10px 15px 0px 5px;
 `;
 
 export const MusicCover = styled.Image`
   width: 70px;
   height: 70px;
   border-radius: 12px;
+  margin: auto 0;
 `;
 
 export const MusicName = styled.Text`
   font-family: ${fonts.name};
-  font-size: 14px;
+  font-size: 12px;
   color: ${({ theme }) => theme.colors.black};
 `;
 

@@ -18,8 +18,10 @@ import {
 } from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
+import { usePlayer } from "../../contexts/player";
 
 const MusicPlayer: React.FC = () => {
+  const { allMusics } = usePlayer()
   const { colors } = useTheme();
 
   return (

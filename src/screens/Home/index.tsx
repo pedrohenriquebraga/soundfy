@@ -20,16 +20,17 @@ import { Feather, MaterialIcons } from "@expo/vector-icons";
 import Header from "../../components/Header";
 import { useTheme } from "styled-components";
 import MiniPlayer from "../../components/MiniPlayer";
+import { usePlayer } from "../../contexts/player";
+import { secondsToTime } from "../../utils/time";
 
 const Home: React.FC = () => {
+  const { allMusics } = usePlayer();
   const { colors } = useTheme();
 
   return (
     <>
       <Header />
-      <Container
-        showsVerticalScrollIndicator={false}        
-      >
+      <Container showsVerticalScrollIndicator={false}>
         <HeaderContainer>
           <HeaderTitleContainer>
             <HeaderTitle>
@@ -91,61 +92,21 @@ const Home: React.FC = () => {
               <Feather name="list" size={23} /> Todas as músicas
             </SectionTitle>
             <MusicsContainer>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>XXXTENTACION - Going Down!</MusicName>
-                  <MusicDuration>01:56</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>XXXTENTACION - Going Down!</MusicName>
-                  <MusicDuration>01:56</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>XXXTENTACION - Going Down!</MusicName>
-                  <MusicDuration>01:56</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>XXXTENTACION - Going Down!</MusicName>
-                  <MusicDuration>01:56</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>XXXTENTACION - Going Down!</MusicName>
-                  <MusicDuration>01:56</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
+              {allMusics.map((music, index) => {
+                return (
+                  <MusicButton key={index}>
+                    <MusicCover
+                      source={{
+                        uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
+                      }}
+                    />
+                    <MusicContentContainer>
+                      <MusicName>{music.name}</MusicName>
+                      <MusicDuration>{secondsToTime(music.duration)}</MusicDuration>
+                    </MusicContentContainer>
+                  </MusicButton>
+                );
+              })}
             </MusicsContainer>
           </SectionContainer>
         </SectionsContainer>
