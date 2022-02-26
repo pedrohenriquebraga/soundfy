@@ -44,7 +44,7 @@ color: ${({ theme }) => theme.colors.primary};
 
 export const MiniPlayerMusicName = styled.Text`
 font-family: ${fonts.name};
-font-size: 16px;
+font-size: 12px;
 color: ${({ theme }) => theme.colors.black};
 `;
 

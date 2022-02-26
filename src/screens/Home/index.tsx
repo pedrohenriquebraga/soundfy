@@ -24,7 +24,7 @@ import { usePlayer } from "../../contexts/player";
 import { secondsToTime } from "../../utils/time";
 
 const Home: React.FC = () => {
-  const { allMusics } = usePlayer();
+  const { allMusics, currentMusic, handleSelectMusic } = usePlayer();
   const { colors } = useTheme();
 
   return (
@@ -94,15 +94,18 @@ const Home: React.FC = () => {
             <MusicsContainer>
               {allMusics.map((music, index) => {
                 return (
-                  <MusicButton key={index}>
-                    <MusicCover
-                      source={{
-                        uri: "https://img.gta5-mods.com/q75/images/xxxtentacion-changes-loading-music/271594-257881bff3f942bd4e14468a79ad06c2.jpg",
-                      }}
-                    />
+                  <MusicButton
+                    key={index}
+                    onPress={() => handleSelectMusic(music.index)}
+                  >
+                    <MaterialIcons name="music-note" size={70} color={colors.secondary} />
                     <MusicContentContainer>
-                      <MusicName>{music.name}</MusicName>
-                      <MusicDuration>{secondsToTime(music.duration)}</MusicDuration>
+                      <MusicName isPlaying={music.path === currentMusic?.path}>
+                        {music.name}
+                      </MusicName>
+                      <MusicDuration>
+                        {secondsToTime(music.duration)}
+                      </MusicDuration>
                     </MusicContentContainer>
                   </MusicButton>
                 );

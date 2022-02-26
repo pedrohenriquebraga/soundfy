@@ -19,9 +19,22 @@ import {
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 import { usePlayer } from "../../contexts/player";
+import { secondsToTime } from "../../utils/time";
 
 const MusicPlayer: React.FC = () => {
-  const { allMusics } = usePlayer()
+  const {
+    currentMusic,
+    isPlaying,
+    isMuted,
+    isLooped,
+    useProgress,
+    handleMute,
+    playAndPauseMusic,
+    handlePrevMusic,
+    handleNextMusic,
+    handleLoop,
+    handleSeek,
+  } = usePlayer();
   const { colors } = useTheme();
 
   return (
@@ -30,55 +43,68 @@ const MusicPlayer: React.FC = () => {
       <Container>
         <MusicInfosContainer>
           <MusicCoverContainer>
-            <MusicCover
-              source={{
-                uri: "https://conteudo.imguol.com.br/c/entretenimento/5a/2018/11/19/rapper-tekashi-6ix9ine-e-preso-por-extorsao-diz-site-1542652676776_v2_900x506.jpg.webp",
-              }}
+            <MaterialIcons
+              name="music-note"
+              size={300}
+              color={colors.secondary}
             />
           </MusicCoverContainer>
-          <MusicName>6ix9ine - BUBA!</MusicName>
+          <MusicName numberOfLines={2}>{currentMusic?.name}</MusicName>
         </MusicInfosContainer>
         <MusicControllersContainer>
           <MusicSeekContainer>
             <MusicSeek
               minimumValue={0}
-              maximumValue={230000}
-              value={36000}
+              maximumValue={useProgress().duration}
+              value={useProgress().position}
               thumbTintColor={colors.secondary}
               minimumTrackTintColor={colors.secondary}
               maximumTrackTintColor={colors.light_shape}
+              onSlidingComplete={handleSeek}
             />
             <MusicDurationContainer>
-              <MusicDuration>00:36</MusicDuration>
-              <MusicDuration>02:30</MusicDuration>
+              <MusicDuration>
+                {secondsToTime(useProgress(800).position)}
+              </MusicDuration>
+              <MusicDuration>
+                {secondsToTime(useProgress().duration)}
+              </MusicDuration>
             </MusicDurationContainer>
           </MusicSeekContainer>
           <MusicControllers>
-            <MusicControllerButton>
+            <MusicControllerButton onPress={handlePrevMusic}>
               <MaterialIcons
                 name="skip-previous"
                 size={45}
                 color={colors.black}
               />
             </MusicControllerButton>
-            <MusicControllerButton>
+            <MusicControllerButton onPress={playAndPauseMusic}>
               <MaterialIcons
-                name="play-circle-fill"
+                name={isPlaying ? "pause-circle-filled" : "play-circle-fill"}
                 size={65}
                 color={colors.primary}
               />
             </MusicControllerButton>
-            <MusicControllerButton>
+            <MusicControllerButton onPress={handleNextMusic}>
               <MaterialIcons name="skip-next" size={45} color={colors.black} />
             </MusicControllerButton>
           </MusicControllers>
         </MusicControllersContainer>
         <MusicExtraControllersContainer>
-          <MusicExtraControllerButton>
-            <MaterialIcons name="loop" size={25} color={colors.secondary} />
+          <MusicExtraControllerButton onPress={handleLoop}>
+            <MaterialIcons
+              name="loop"
+              size={25}
+              color={isLooped ? colors.secondary : colors.black}
+            />
           </MusicExtraControllerButton>
-          <MusicExtraControllerButton>
-            <MaterialIcons name="volume-up" size={25} color={colors.black} />
+          <MusicExtraControllerButton onPress={handleMute}>
+            <MaterialIcons
+              name={isMuted ? "volume-off" : "volume-up"}
+              size={25}
+              color={colors.black}
+            />
           </MusicExtraControllerButton>
         </MusicExtraControllersContainer>
       </Container>

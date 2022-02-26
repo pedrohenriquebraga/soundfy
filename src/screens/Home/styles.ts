@@ -67,13 +67,13 @@ export const MusicCover = styled.Image`
   width: 70px;
   height: 70px;
   border-radius: 12px;
-  margin: auto 0;
+  margin: auto 5px;
 `;
 
-export const MusicName = styled.Text`
+export const MusicName = styled.Text<{ isPlaying: boolean }>`
   font-family: ${fonts.name};
   font-size: 12px;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme, isPlaying }) => isPlaying ? theme.colors.primary : theme.colors.black};
 `;
 
 export const MusicDuration = styled.Text`
