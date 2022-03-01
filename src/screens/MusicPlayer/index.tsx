@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import {
+  Blur,
   Container,
   MusicControllerButton,
   MusicControllers,
@@ -20,6 +21,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 import { usePlayer } from "../../contexts/player";
 import { secondsToTime } from "../../utils/time";
+import { BlurView } from "@react-native-community/blur"
 
 const MusicPlayer: React.FC = () => {
   const {
@@ -41,6 +43,7 @@ const MusicPlayer: React.FC = () => {
     <>
       <Header title="Tocando agora" showBack />
       <Container>
+        <Blur blurType="dark" blurAmount={10} />
         <MusicInfosContainer>
           <MusicCoverContainer>
             <MaterialIcons

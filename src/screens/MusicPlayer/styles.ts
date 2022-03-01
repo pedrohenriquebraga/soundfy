@@ -1,5 +1,7 @@
 import styled from "styled-components/native";
 import fonts from "../../styles/fonts";
+import Slider from "@react-native-community/slider"
+import { BlurView } from "@react-native-community/blur";
 
 export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
@@ -37,7 +39,7 @@ export const MusicSeekContainer = styled.View`
   margin: 20px 0px;
 `;
 
-export const MusicSeek = styled.Slider``;
+export const MusicSeek = styled(Slider)``;
 
 export const MusicDurationContainer = styled.View`
   flex-direction: row;
@@ -78,3 +80,11 @@ export const MusicExtraControllersContainer = styled.View`
 export const MusicExtraControllerButton = styled.TouchableOpacity`
   margin: 0 10px;
 `;
+
+export const Blur = styled(BlurView)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`

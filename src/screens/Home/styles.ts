@@ -42,7 +42,7 @@ export const SectionContainer = styled.View`
 
 export const SectionTitle = styled.Text`
   font-family: ${fonts.heading};
-  font-size: 25px;
+  font-size: 20px;
   color: ${({ theme }) => theme.colors.black};
 `;
 
@@ -58,7 +58,7 @@ export const MusicButton = styled.TouchableOpacity`
 `;
 
 export const MusicContentContainer = styled.View`
-  width: 90%;
+  flex: 1;
   justify-content: center;
   padding: 10px 15px 0px 5px;
 `;
@@ -70,9 +70,9 @@ export const MusicCover = styled.Image`
   margin: auto 5px;
 `;
 
-export const MusicName = styled.Text<{ isPlaying: boolean }>`
+export const MusicName = styled.Text<{ isPlaying?: boolean }>`
   font-family: ${fonts.name};
-  font-size: 12px;
+  font-size: 13px;
   color: ${({ theme, isPlaying }) => isPlaying ? theme.colors.primary : theme.colors.black};
 `;
 

@@ -24,7 +24,8 @@ import { usePlayer } from "../../contexts/player";
 import { secondsToTime } from "../../utils/time";
 
 const Home: React.FC = () => {
-  const { allMusics, currentMusic, handleSelectMusic } = usePlayer();
+  const { allMusics, currentMusic, recentListenMusics, handleSelectMusic } =
+    usePlayer();
   const { colors } = useTheme();
 
   return (
@@ -49,47 +50,36 @@ const Home: React.FC = () => {
         <SectionsContainer>
           <SectionContainer>
             <SectionTitle>
-              <Feather name="clock" size={23} /> Tocadas recentemente
+              <Feather name="clock" size={18} /> Tocadas recentemente
             </SectionTitle>
             <MusicsContainer>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://lab.fm/wp-content/uploads/2020/02/021920-Lil-Pump-Warner-Records-Nabil-Elderkin.png",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>Lil Pump - Boss</MusicName>
-                  <MusicDuration>02:17</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://lab.fm/wp-content/uploads/2020/02/021920-Lil-Pump-Warner-Records-Nabil-Elderkin.png",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>Lil Pump - Boss</MusicName>
-                  <MusicDuration>02:17</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
-              <MusicButton>
-                <MusicCover
-                  source={{
-                    uri: "https://lab.fm/wp-content/uploads/2020/02/021920-Lil-Pump-Warner-Records-Nabil-Elderkin.png",
-                  }}
-                />
-                <MusicContentContainer>
-                  <MusicName>Lil Pump - Boss</MusicName>
-                  <MusicDuration>02:17</MusicDuration>
-                </MusicContentContainer>
-              </MusicButton>
+              {recentListenMusics.map((rlm, index) => {
+                return (
+                  <MusicButton
+                    onPress={() => handleSelectMusic(rlm.index)}
+                    key={index}
+                  >
+                    <MaterialIcons
+                      name="music-note"
+                      size={70}
+                      color={colors.secondary}
+                    />
+                    <MusicContentContainer>
+                      <MusicName isPlaying={rlm.path === currentMusic?.path}>
+                        {rlm.name}
+                      </MusicName>
+                      <MusicDuration>
+                        {secondsToTime(rlm.duration)}
+                      </MusicDuration>
+                    </MusicContentContainer>
+                  </MusicButton>
+                );
+              })}
             </MusicsContainer>
           </SectionContainer>
           <SectionContainer>
             <SectionTitle>
-              <Feather name="list" size={23} /> Todas as músicas
+              <Feather name="list" size={18} /> Todas as músicas
             </SectionTitle>
             <MusicsContainer>
               {allMusics.map((music, index) => {
@@ -98,7 +88,11 @@ const Home: React.FC = () => {
                     key={index}
                     onPress={() => handleSelectMusic(music.index)}
                   >
-                    <MaterialIcons name="music-note" size={70} color={colors.secondary} />
+                    <MaterialIcons
+                      name="music-note"
+                      size={70}
+                      color={colors.secondary}
+                    />
                     <MusicContentContainer>
                       <MusicName isPlaying={music.path === currentMusic?.path}>
                         {music.name}

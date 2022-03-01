@@ -18,6 +18,7 @@ export const updateConfigs: MetadataOptions = {
   pauseIcon: require("../assets/pause-icon.png"),
   previousIcon: require("../assets/skip-prev-icon.png"),
   nextIcon: require("../assets/skip-next-icon.png"),
-  compactCapabilities: capabilities,
   capabilities,
+  compactCapabilities: capabilities,
+  notificationCapabilities: capabilities,
 };

@@ -14,6 +14,7 @@ import {
 import { Feather, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { usePlayer } from "../../contexts/player";
+import { MotiView } from "moti";
 
 const MiniPlayer: React.FC = () => {
   const {
@@ -30,42 +31,64 @@ const MiniPlayer: React.FC = () => {
     navigation.navigate("MusicPlayer");
   };
 
-  // if (!currentMusic) return <></>
+  if (!currentMusic) return <></>;
 
   return (
     <MiniPlayerContainer activeOpacity={0.7} onPress={handleGoMusicPlayer}>
-      <MiniPlayerLeftSide>
-        <MiniPlayerCoverContainer>
-          <MiniPlayerCover
-            source={{
-              uri: "https://conteudo.imguol.com.br/c/entretenimento/5a/2018/11/19/rapper-tekashi-6ix9ine-e-preso-por-extorsao-diz-site-1542652676776_v2_900x506.jpg.webp",
-            }}
-          />
-        </MiniPlayerCoverContainer>
-        <MiniPlayerContentContainer>
-          <MiniPlayerTitle>
-            <Feather name="music" size={10} color={colors.primary} /> Tocando
-            agora...
-          </MiniPlayerTitle>
-          <MiniPlayerMusicName numberOfLines={1}>{currentMusic?.name}</MiniPlayerMusicName>
-        </MiniPlayerContentContainer>
-      </MiniPlayerLeftSide>
+      <MotiView
+        style={{ flexDirection: "row", flex: 1, alignItems: "center" }}
+        from={{
+          translateY: 50,
+          opacity: 0,
+        }}
+        animate={{
+          translateY: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 1000,
+          type: "timing",
+        }}
+      >
+        <MiniPlayerLeftSide>
+          <MiniPlayerCoverContainer>
+            <MaterialIcons
+              name="music-note"
+              size={60}
+              color={colors.secondary}
+            />
+          </MiniPlayerCoverContainer>
+          <MiniPlayerContentContainer>
+            <MiniPlayerTitle>
+              <Feather name="music" size={10} color={colors.primary} /> Tocando
+              agora...
+            </MiniPlayerTitle>
+            <MiniPlayerMusicName numberOfLines={1}>
+              {currentMusic?.name}
+            </MiniPlayerMusicName>
+          </MiniPlayerContentContainer>
+        </MiniPlayerLeftSide>
 
-      <MiniPlayerActionContainer>
-        <MiniPlayerActionButton onPress={handlePrevMusic}>
-          <MaterialIcons name="skip-previous" size={30} color={colors.black} />
-        </MiniPlayerActionButton>
-        <MiniPlayerActionButton onPress={playAndPauseMusic}>
-          <MaterialIcons
-            name={isPlaying ? "pause" : "play-arrow"}
-            size={30}
-            color={colors.black}
-          />
-        </MiniPlayerActionButton>
-        <MiniPlayerActionButton onPress={handleNextMusic}>
-          <MaterialIcons name="skip-next" size={30} color={colors.black} />
-        </MiniPlayerActionButton>
-      </MiniPlayerActionContainer>
+        <MiniPlayerActionContainer>
+          <MiniPlayerActionButton onPress={handlePrevMusic}>
+            <MaterialIcons
+              name="skip-previous"
+              size={30}
+              color={colors.black}
+            />
+          </MiniPlayerActionButton>
+          <MiniPlayerActionButton onPress={playAndPauseMusic}>
+            <MaterialIcons
+              name={isPlaying ? "pause" : "play-arrow"}
+              size={30}
+              color={colors.black}
+            />
+          </MiniPlayerActionButton>
+          <MiniPlayerActionButton onPress={handleNextMusic}>
+            <MaterialIcons name="skip-next" size={30} color={colors.black} />
+          </MiniPlayerActionButton>
+        </MiniPlayerActionContainer>
+      </MotiView>
     </MiniPlayerContainer>
   );
 };
