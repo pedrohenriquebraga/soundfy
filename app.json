@@ -2,10 +2,17 @@
   "expo": {
     "name": "soundfy-player",
     "slug": "soundfy-player",
+    "owner": "pedro-henriquebraga",
     "version": "1.0.0",
     "jsEngine": "hermes",
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "./src/assets"
     ]
   }
 }
