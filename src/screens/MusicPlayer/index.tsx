@@ -99,7 +99,7 @@ const MusicPlayer: React.FC = () => {
             <MaterialIcons
               name="loop"
               size={25}
-              color={isLooped ? colors.secondary : colors.black}
+              color={isLooped ? colors.primary : colors.black}
             />
           </MusicExtraControllerButton>
           <MusicExtraControllerButton onPress={handleMute}>

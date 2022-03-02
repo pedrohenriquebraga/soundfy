@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import TrackPlayer from "../services/trackPlayer";
 import * as MediaLibrary from "expo-media-library";
-import { Event, State, useProgress } from "react-native-track-player";
+import { Event, RepeatMode, State, useProgress } from "react-native-track-player";
 import { usePersistedState } from "../hooks/usePersistedState";
 import { IMusicData } from "../@types/interfaces";
 
@@ -24,7 +24,7 @@ interface IPlayerContext {
 
 interface ICurrentMusic {
   name: string;
-  path: string;
+  index: number;
   duration: number;
 }
 
@@ -80,13 +80,12 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      TrackPlayer.addEventListener(
-        Event.PlaybackMetadataReceived,
+      TrackPlayer.addEventListener(Event.PlaybackMetadataReceived,
         async (data) => {
-          const currentTrack = await TrackPlayer.getCurrentTrack();
+          const currentTrack = await TrackPlayer.getCurrentTrack();          
           setCurrentMusic({
             name: data.title,
-            path: "",
+            index: currentTrack,
             duration,
           });
         }
@@ -178,6 +177,7 @@ const PlayerProvider: React.FC = ({ children }) => {
   };
 
   const handleLoop = async () => {
+    await TrackPlayer.setRepeatMode(!isLooped ? RepeatMode.Track : RepeatMode.Queue)
     setIsLooped((old) => !old);
   };
 

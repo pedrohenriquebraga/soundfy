@@ -14,6 +14,7 @@ const capabilities = [
 export const updateConfigs: MetadataOptions = {
   stopWithApp: true,
   alwaysPauseOnInterruption: true,
+  icon: require("../assets/icon.png"),
   playIcon: require("../assets/play-icon.png"),
   pauseIcon: require("../assets/pause-icon.png"),
   previousIcon: require("../assets/skip-prev-icon.png"),

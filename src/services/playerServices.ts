@@ -10,7 +10,7 @@ module.exports = async function () {
     
     const currentTrack = await TrackPlayer.getCurrentTrack();
     const queueLength = (await TrackPlayer.getQueue()).length
-
+    
     if (currentTrack + 1 >= queueLength) {
       await TrackPlayer.skip(0);
       return;

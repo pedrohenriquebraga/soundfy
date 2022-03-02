@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Container,
   HeaderAnimation,
@@ -8,7 +8,6 @@ import {
   HeaderTitleContainer,
   MusicButton,
   MusicContentContainer,
-  MusicCover,
   MusicDuration,
   MusicName,
   MusicsContainer,
@@ -26,12 +25,21 @@ import { secondsToTime } from "../../utils/time";
 const Home: React.FC = () => {
   const { allMusics, currentMusic, recentListenMusics, handleSelectMusic } =
     usePlayer();
-  const { colors } = useTheme();
+    const currentMusicPath = useMemo(() => {
+      if (allMusics && currentMusic) {
+        return allMusics[currentMusic.index].path
+      }
+    }, [allMusics, currentMusic])
+    const { colors } = useTheme();
 
   return (
     <>
       <Header />
-      <Container showsVerticalScrollIndicator={false}>
+      <Container showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: currentMusic ? 100 : 0,
+        }}
+      >
         <HeaderContainer>
           <HeaderTitleContainer>
             <HeaderTitle>
@@ -65,7 +73,7 @@ const Home: React.FC = () => {
                       color={colors.secondary}
                     />
                     <MusicContentContainer>
-                      <MusicName isPlaying={rlm.path === currentMusic?.path}>
+                      <MusicName isPlaying={rlm.path === currentMusicPath}>
                         {rlm.name}
                       </MusicName>
                       <MusicDuration>
@@ -94,7 +102,7 @@ const Home: React.FC = () => {
                       color={colors.secondary}
                     />
                     <MusicContentContainer>
-                      <MusicName isPlaying={music.path === currentMusic?.path}>
+                      <MusicName isPlaying={music.path === currentMusicPath}>
                         {music.name}
                       </MusicName>
                       <MusicDuration>

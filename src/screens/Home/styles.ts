@@ -73,7 +73,8 @@ export const MusicCover = styled.Image`
 export const MusicName = styled.Text<{ isPlaying?: boolean }>`
   font-family: ${fonts.name};
   font-size: 13px;
-  color: ${({ theme, isPlaying }) => isPlaying ? theme.colors.primary : theme.colors.black};
+  color: ${({ theme, isPlaying }) =>
+    isPlaying ? theme.colors.primary : theme.colors.black};
 `;
 
 export const MusicDuration = styled.Text`

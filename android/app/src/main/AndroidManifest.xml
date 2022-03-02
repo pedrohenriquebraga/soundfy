@@ -3,6 +3,7 @@
   <!-- OPTIONAL PERMISSIONS, REMOVE WHATEVER YOU DO NOT NEED -->
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
   <uses-permission android:name="android.permission.VIBRATE"/>
+  <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
   <!-- These require runtime permissions on M -->
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -23,6 +24,7 @@
     android:allowBackup="false"
     android:theme="@style/AppTheme"
     android:usesCleartextTraffic="true"
+    android:requestLegacyExternalStorage="true"
   >
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@pedro-henriquebraga/soundfy-player"/>
     <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="44.0.0"/>

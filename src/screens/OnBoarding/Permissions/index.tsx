@@ -3,7 +3,6 @@ import Button from "../../../components/Button";
 import * as MediaLibrary from "expo-media-library";
 import { Alert } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import {
   Animation,
   AnimationContainer,
@@ -18,33 +17,26 @@ import { useBoarding } from "../../../contexts/boarding";
 
 const Permissions: React.FC = () => {
   const [grantedFiles, setGrantedFiles] = useState(false);
-  const navigation = useNavigation();
   const { handleSetOnBoarded } = useBoarding();
 
   const handleGo = async () => {
     handleSetOnBoarded();
-    // navigation.navigate("Home");
   };
 
   useEffect(() => {
     (async () => {
-      const { granted, status } = await MediaLibrary.getPermissionsAsync(false);
+      const { granted } = await MediaLibrary.getPermissionsAsync(false);
 
-      setGrantedFiles(granted || status === MediaLibrary.PermissionStatus.UNDETERMINED);
+      setGrantedFiles(granted);
     })();
   }, []);
 
   const handleGetPermissions = async () => {
-    const { status, canAskAgain } = await MediaLibrary.requestPermissionsAsync(
+    const { granted, status, canAskAgain } = await MediaLibrary.requestPermissionsAsync(
       false
-    );
+    );    
 
-    console.log(status);
-
-    if (
-      status === MediaLibrary.PermissionStatus.GRANTED ||
-      status === MediaLibrary.PermissionStatus.UNDETERMINED
-    ) {
+    if (granted) {
       setGrantedFiles(true);
       return;
     }
