@@ -25,7 +25,7 @@
     android:usesCleartextTraffic="true"
   >
     <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://exp.host/@pedro-henriquebraga/soundfy-player"/>
-    <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="44"/>
+    <meta-data android:name="expo.modules.updates.EXPO_SDK_VERSION" android:value="44.0.0"/>
     <activity
       android:name=".MainActivity"
       android:label="@string/app_name"
