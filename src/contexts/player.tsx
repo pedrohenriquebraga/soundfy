@@ -1,17 +1,25 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import TrackPlayer from "../services/trackPlayer";
 import * as MediaLibrary from "expo-media-library";
-import { Event, RepeatMode, State, useProgress } from "react-native-track-player";
+import {
+  Event,
+  RepeatMode,
+  State,
+  useProgress,
+} from "react-native-track-player";
 import { usePersistedState } from "../hooks/usePersistedState";
 import { IMusicData } from "../@types/interfaces";
+import * as FS from "expo-file-system";
 
 interface IPlayerContext {
   allMusics: IMusicData[];
   currentMusic: ICurrentMusic;
   recentListenMusics: IMusicData[];
+  hasMoreMusics: boolean;
   isPlaying: boolean;
   isLooped: boolean;
   isMuted: boolean;
+  getMoreMusics: () => void;
   useProgress: typeof useProgress;
   playAndPauseMusic: () => void;
   handlePrevMusic: () => void;
@@ -33,33 +41,24 @@ const PlayerContext = createContext<IPlayerContext>({} as IPlayerContext);
 const PlayerProvider: React.FC = ({ children }) => {
   const [allMusics, setAllMusics] = useState<IMusicData[]>([]);
   const [currentMusic, setCurrentMusic] = useState<ICurrentMusic>();
+  const [hasMoreMusics, setHasMoreMusics] = useState(true);
+  const [nextMusicPage, setNextMusicPage] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [isLooped, setIsLooped] = useState(false);
+  const [isLooped, setIsLooped] = usePersistedState(
+    "@SoundfyPlayer@isLooped",
+    false
+  );
   const [recentListenMusics, setRecentListenMusics] = usePersistedState<
     IMusicData[]
   >("@SoundfyPlayer:recentMusicListen", []);
 
-  const { position, duration } = useProgress();
+  const { position, duration } = useProgress(1500);
 
   useEffect(() => {
     (async () => {
-      const assets = await MediaLibrary.getAssetsAsync({
-        mediaType: "audio",
-        first: 50,
-      });
-
-      const musics = assets.assets.map((a, index) => {
-        return {
-          index,
-          name: a.filename,
-          path: a.uri,
-          duration: a.duration,
-          albumId: a.albumId,
-          contentType: a.mediaType,
-          date: a.creationTime,
-        };
-      });
+      const assets = await getMusicAssets();
+      const musics = assets.map(processAssetMusic);
 
       await TrackPlayer.add(
         musics.map((music) => {
@@ -80,9 +79,11 @@ const PlayerProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      TrackPlayer.addEventListener(Event.PlaybackMetadataReceived,
+      TrackPlayer.addEventListener(
+        Event.PlaybackMetadataReceived,
         async (data) => {
-          const currentTrack = await TrackPlayer.getCurrentTrack();          
+          const currentTrack = await TrackPlayer.getCurrentTrack();
+
           setCurrentMusic({
             name: data.title,
             index: currentTrack,
@@ -100,6 +101,58 @@ const PlayerProvider: React.FC = ({ children }) => {
       });
     })();
   }, []);
+
+  const processAssetMusic = (music: MediaLibrary.Asset, index: number) => {
+    const processedMusic = {
+      index,
+      name: music.filename,
+      path: music.uri,
+      duration: music.duration,
+      albumId: music.albumId,
+      contentType: music.mediaType,
+      date: music.creationTime,
+    };
+
+    return processedMusic;
+  };
+
+  const getMusicAssets = async () => {
+    const { assets, endCursor, hasNextPage, totalCount } =
+      await MediaLibrary.getAssetsAsync({
+        mediaType: "audio",
+        first: 10,
+        after: nextMusicPage || undefined,
+      });
+
+    setHasMoreMusics(hasNextPage);
+    setNextMusicPage(endCursor);
+
+    return assets;
+  };
+
+  const getMoreMusics = async () => {
+    if (!hasMoreMusics) return;
+
+    const assets = await getMusicAssets();
+    const newMusics = assets.map((a, index) =>
+      processAssetMusic(a, index + allMusics.length)
+    );
+
+    await TrackPlayer.add(
+      newMusics.map((music) => {
+        return {
+          title: music.name,
+          album: music.albumId,
+          url: music.path,
+          duration: music.duration,
+          contentType: music.contentType,
+          artwork: require("../assets/artwork.png"),
+        };
+      })
+    );
+
+    setAllMusics((old) => [...old, ...newMusics]);
+  };
 
   const addRecentListenMusic = async (music: IMusicData) => {
     const inList = recentListenMusics.find((rlm) => rlm.path === music.path);
@@ -153,7 +206,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     await TrackPlayer.play();
 
     addRecentListenMusic(allMusics[currentTrack - 1]);
-    setIsPlaying(true);
   };
 
   const handleNextMusic = async () => {
@@ -168,7 +220,6 @@ const PlayerProvider: React.FC = ({ children }) => {
     await TrackPlayer.play();
 
     addRecentListenMusic(allMusics[currentTrack + 1]);
-    setIsPlaying(true);
   };
 
   const handleMute = async () => {
@@ -177,7 +228,9 @@ const PlayerProvider: React.FC = ({ children }) => {
   };
 
   const handleLoop = async () => {
-    await TrackPlayer.setRepeatMode(!isLooped ? RepeatMode.Track : RepeatMode.Queue)
+    await TrackPlayer.setRepeatMode(
+      !isLooped ? RepeatMode.Track : RepeatMode.Queue
+    );
     setIsLooped((old) => !old);
   };
 
@@ -185,8 +238,8 @@ const PlayerProvider: React.FC = ({ children }) => {
     await TrackPlayer.skip(trackIndex);
     await TrackPlayer.play();
 
-    addRecentListenMusic(allMusics[trackIndex]);
-    setIsPlaying(true);
+    const selectedMusic = allMusics[trackIndex];
+    addRecentListenMusic(selectedMusic);
   };
 
   const handleSeek = async (position: number) => {
@@ -206,10 +259,12 @@ const PlayerProvider: React.FC = ({ children }) => {
         handleSeek,
         handleSelectMusic,
         useProgress,
+        getMoreMusics,
         currentMusic,
         isPlaying,
         isMuted,
         isLooped,
+        hasMoreMusics
       }}
     >
       {children}
