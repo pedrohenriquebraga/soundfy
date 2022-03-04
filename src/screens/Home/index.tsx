@@ -42,7 +42,7 @@ const Home: React.FC = () => {
     <>
       <Header>
         <HeaderButton>
-          <Feather name="compass" size={26} color={colors.black} />
+          <Feather name="star" size={26} color={colors.black} />
         </HeaderButton>
       </Header>
       <Container
