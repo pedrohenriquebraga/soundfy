@@ -27,8 +27,19 @@ export const HeaderTitle = styled.Text`
 `
 
 export const HeaderButton = styled.TouchableOpacity`
+  margin: 0px 6px;
+`
+
+export const LeftSideContainer = styled.View`
   position: absolute;
-  margin: 0px 12px;
   left: 0;
+  margin-left: 12px;
+`
+
+export const RightSideContainer = styled.View`
+  position: absolute;
+  flex-direction: row;
+  margin-right: 12px;
+  right: 0;
 `
 

@@ -21,6 +21,7 @@ import { useTheme } from "styled-components";
 import MiniPlayer from "../../components/MiniPlayer";
 import { usePlayer } from "../../contexts/player";
 import { secondsToTime } from "../../utils/time";
+import { HeaderButton } from "../../components/Header/styles";
 
 const Home: React.FC = () => {
   const {
@@ -39,7 +40,11 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Header />
+      <Header>
+        <HeaderButton>
+          <Feather name="compass" size={26} color={colors.black} />
+        </HeaderButton>
+      </Header>
       <Container
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{

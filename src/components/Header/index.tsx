@@ -4,6 +4,8 @@ import {
   HeaderButton,
   HeaderContentContainer,
   HeaderTitle,
+  LeftSideContainer,
+  RightSideContainer,
 } from "./styles";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -13,28 +15,32 @@ interface HeaderProps {
   showBack?: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ title = "Soundfy", showBack }) => {
-
-  const navigation = useNavigation()
+const Header: React.FC<HeaderProps> = ({
+  title = "Soundfy",
+  showBack,
+  children,
+}) => {
+  const navigation = useNavigation();
 
   const handleGoBack = async () => {
     if (navigation.canGoBack()) {
-      navigation.goBack()
+      navigation.goBack();
     }
-  }
+  };
 
   return (
     <Container>
-      {
-        showBack && (
+      <LeftSideContainer>
+        {showBack && (
           <HeaderButton onPress={handleGoBack}>
             <Feather name="arrow-left" size={26} color="#FFF" />
           </HeaderButton>
-        )
-      }
+        )}
+      </LeftSideContainer>
       <HeaderContentContainer>
         <HeaderTitle>{title}</HeaderTitle>
       </HeaderContentContainer>
+      <RightSideContainer>{children}</RightSideContainer>
     </Container>
   );
 };
