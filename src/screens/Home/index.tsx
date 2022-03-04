@@ -23,22 +23,29 @@ import { usePlayer } from "../../contexts/player";
 import { secondsToTime } from "../../utils/time";
 
 const Home: React.FC = () => {
-  const { allMusics, currentMusic, recentListenMusics, handleSelectMusic } =
-    usePlayer();
-    const currentMusicPath = useMemo(() => {
-      if (allMusics && currentMusic) {
-        return allMusics[currentMusic.index].path
-      }
-    }, [allMusics, currentMusic])
-    const { colors } = useTheme();
+  const {
+    allMusics,
+    currentMusic,
+    recentListenMusics,
+    handleSelectMusic,
+    getMoreMusics,
+  } = usePlayer();
+  const currentMusicPath = useMemo(() => {
+    if (allMusics && currentMusic) {
+      return allMusics[currentMusic.index].path;
+    }
+  }, [allMusics, currentMusic]);
+  const { colors } = useTheme();
 
   return (
     <>
       <Header />
-      <Container showsVerticalScrollIndicator={false}
+      <Container
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingBottom: currentMusic ? 100 : 0,
         }}
+        onScrollEndDrag={getMoreMusics}
       >
         <HeaderContainer>
           <HeaderTitleContainer>
