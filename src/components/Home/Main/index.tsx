@@ -22,12 +22,13 @@ const Main: React.FC = () => {
         content: allMusics,
       },
     ];
-  }, []);
+  }, [allMusics, recentListenMusics]);
 
   return (
     <SectionsContainer>
-      {PAGE_SECTIONS.map((ps) => (
+      {PAGE_SECTIONS.map((ps, index) => (
         <MusicSection
+          key={index}
           title={ps.title}
           content={ps.content}
           iconName={ps.iconName}

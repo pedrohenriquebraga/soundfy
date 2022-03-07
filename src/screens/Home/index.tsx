@@ -17,12 +17,14 @@ const Home: React.FC = () => {
     <>
       <Header>
         <HeaderButton>
-          <Feather name="star" size={26} color={colors.black} />
+          <Feather name="star" size={24} color={colors.black} />
+        </HeaderButton>
+        <HeaderButton>
+          <Feather name="compass" size={24} color={colors.black} />
         </HeaderButton>
       </Header>
       <Container
         contentContainerStyle={{ paddingBottom: currentMusic ? 100 : 0 }}
-        onScrollEndDrag={getMoreMusics}
       >
         <PresentationHeader />
         <Main />

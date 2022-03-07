@@ -33,7 +33,7 @@ const Header: React.FC<HeaderProps> = ({
       <LeftSideContainer>
         {showBack && (
           <HeaderButton onPress={handleGoBack}>
-            <Feather name="arrow-left" size={26} color="#FFF" />
+            <Feather name="arrow-left" size={24} color="#FFF" />
           </HeaderButton>
         )}
       </LeftSideContainer>

@@ -7,9 +7,12 @@ import { secondsToTime } from "../../../utils/time";
 import {
   MusicButton,
   MusicContentContainer,
-  MusicCover,
+  MusicCoverContainer,
   MusicDuration,
   MusicName,
+  MusicNameContainer,
+  MusicPlayingAnimation,
+  MusicPlayingAnimationContainer,
 } from "./styles";
 
 interface IMusicCardProps {
@@ -27,19 +30,33 @@ const MusicCard: React.FC<IMusicCardProps> = ({ music }) => {
   }, [allMusics, currentMusic]);
 
   return (
-    <MusicButton
-      onPress={() => handleSelectMusic(music.index)}
-      key={music.index}
-    >
-      <MaterialIcons name="music-note" size={70} color={colors.secondary} />
+    <MusicButton onPress={() => handleSelectMusic(music.index)}>
+      <MusicCoverContainer>
+        <MaterialIcons name="music-note" size={70} color={colors.secondary} />
+      </MusicCoverContainer>
       <MusicContentContainer>
-        <MusicName isPlaying={music.path === currentMusicPath}>
-          {music.name}
-        </MusicName>
+        <MusicNameContainer>
+          {music.path === currentMusicPath && (
+            <MusicPlayingAnimationContainer>
+              <MusicPlayingAnimation
+                source={require("../../../assets/playing.json")}
+                speed={0.75}
+                autoPlay
+                loop
+              />
+            </MusicPlayingAnimationContainer>
+          )}
+          <MusicName
+            numberOfLines={2}
+            isPlaying={music.path === currentMusicPath}
+          >
+            {music.name}
+          </MusicName>
+        </MusicNameContainer>
         <MusicDuration>{secondsToTime(music.duration)}</MusicDuration>
       </MusicContentContainer>
     </MusicButton>
   );
 };
 
-export default MusicCard;
+export default React.memo(MusicCard);

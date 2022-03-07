@@ -3,6 +3,7 @@ import { IMusicData } from "../../../@types/interfaces";
 import { Feather } from "@expo/vector-icons";
 import { SectionContainer, SectionTitle, MusicsContainer } from "./styles";
 import MusicCard from "../MusicCard";
+import { MotiView } from "moti";
 
 export interface IMusicSectionProps {
   title: string;
@@ -21,8 +22,25 @@ const MusicSection: React.FC<IMusicSectionProps> = ({
         <Feather name={iconName} size={18} /> {title}
       </SectionTitle>
       <MusicsContainer>
-        {content.map((music) => (
-          <MusicCard music={music} />
+        {content.map((music, index) => (
+          <MotiView
+            key={index}
+            from={{
+              opacity: 0,
+              translateX: -100
+            }}
+            animate={{
+              opacity: 1,
+              translateX: 0
+            }}
+            delay={50 + (index * 50)}
+            transition={{
+              type: "timing",
+              duration: 500
+            }}
+          >
+            <MusicCard music={music} />
+          </MotiView>
         ))}
       </MusicsContainer>
     </SectionContainer>

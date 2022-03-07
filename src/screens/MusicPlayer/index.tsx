@@ -21,7 +21,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useTheme } from "styled-components";
 import { usePlayer } from "../../contexts/player";
 import { secondsToTime } from "../../utils/time";
-import { BlurView } from "@react-native-community/blur"
+import { BlurView } from "@react-native-community/blur";
+import { MotiView } from "moti";
 
 const MusicPlayer: React.FC = () => {
   const {
@@ -43,14 +44,23 @@ const MusicPlayer: React.FC = () => {
     <>
       <Header title="Tocando agora" showBack />
       <Container>
-        <Blur blurType="dark" blurAmount={10} />
+        <Blur blurType="dark" blurAmount={5} />
         <MusicInfosContainer>
           <MusicCoverContainer>
-            <MaterialIcons
-              name="music-note"
-              size={300}
-              color={colors.secondary}
-            />
+            <MotiView
+              from={{ translateY: 0 }}
+              animate={{ translateY: -5 }}
+              exit={{ translateY: 0 }}
+              transition={{
+                loop: true,
+              }}
+            >
+              <MaterialIcons
+                name="music-note"
+                size={300}
+                color={colors.secondary}
+              />
+            </MotiView>
           </MusicCoverContainer>
           <MusicName numberOfLines={2}>{currentMusic?.name}</MusicName>
         </MusicInfosContainer>

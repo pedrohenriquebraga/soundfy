@@ -35,21 +35,6 @@ const MiniPlayer: React.FC = () => {
 
   return (
     <MiniPlayerContainer activeOpacity={0.7} onPress={handleGoMusicPlayer}>
-      <MotiView
-        style={{ flexDirection: "row", flex: 1, alignItems: "center" }}
-        from={{
-          translateY: 50,
-          opacity: 0,
-        }}
-        animate={{
-          translateY: 0,
-          opacity: 1,
-        }}
-        transition={{
-          duration: 1000,
-          type: "timing",
-        }}
-      >
         <MiniPlayerLeftSide>
           <MiniPlayerCoverContainer>
             <MaterialIcons
@@ -88,7 +73,6 @@ const MiniPlayer: React.FC = () => {
             <MaterialIcons name="skip-next" size={30} color={colors.black} />
           </MiniPlayerActionButton>
         </MiniPlayerActionContainer>
-      </MotiView>
     </MiniPlayerContainer>
   );
 };
