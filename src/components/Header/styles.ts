@@ -7,7 +7,6 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
   margin-top: ${getStatusBarHeight(true)}px;
   height: 60px;
-  elevation: 3;
   align-items: center;
   justify-content: center;
   flex-direction: row;

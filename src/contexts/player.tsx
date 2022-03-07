@@ -119,8 +119,8 @@ const PlayerProvider: React.FC = ({ children }) => {
   const getMusicAssets = async () => {
     const { assets, endCursor, hasNextPage, totalCount } =
       await MediaLibrary.getAssetsAsync({
+        first: 20,
         mediaType: "audio",
-        first: 10,
         after: nextMusicPage || undefined,
       });
 

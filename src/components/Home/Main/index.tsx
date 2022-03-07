@@ -1,40 +1,76 @@
 import React, { useMemo } from "react";
-import MusicSection, { IMusicSectionProps } from "../MusicSection";
+import PresentationHeader from "../PresentationHeader";
+import { SectionTitle } from "./styles";
+import { Feather } from "@expo/vector-icons";
 import { usePlayer } from "../../../contexts/player";
+import { FlatList } from "react-native";
+import MusicCard from "../MusicCard";
+import MusicSection from "../MusicSection";
 
-import { SectionsContainer } from "./styles";
-
-interface IPageSection extends IMusicSectionProps {}
+interface IPageSection {
+  key: string;
+  isTitle?: boolean;
+  render: () => JSX.Element;
+}
 
 const Main: React.FC = () => {
-  const { allMusics, recentListenMusics } = usePlayer();
+  const { allMusics, recentListenMusics, currentMusic, getMoreMusics } = usePlayer();
 
-  const PAGE_SECTIONS = useMemo<IPageSection[]>(() => {
-    return [
+  const { data, indices } = useMemo(() => {
+    const data: IPageSection[] = [
       {
-        title: "Tocadas recentemente",
-        iconName: "clock",
-        content: recentListenMusics,
+        key: "HEADER",
+        render: () => <PresentationHeader />
       },
       {
-        title: "Todas as músicas",
-        iconName: "list",
-        content: allMusics,
+        key: "RECENT_LISTEN",
+        isTitle: true,
+        render: () => (
+          <SectionTitle>
+            <Feather name="clock" size={16} /> Tocadas recentemente
+          </SectionTitle>
+        ),
+      },
+      {
+        key: "RECENT_LISTEN_LIST",
+        render: () => <MusicSection content={recentListenMusics} />,
+      },
+      {
+        key: "ALL_MUSICS",
+        isTitle: true,
+        render: () => (
+          <SectionTitle>
+            <Feather name="list" size={16} /> Todas as músicas
+          </SectionTitle>
+        ),
+      },
+      {
+        key: "ALL_MUSICS_LIST",
+        render: () => <MusicSection content={allMusics} />,
       },
     ];
+    const indices = [];
+
+    data.map((item, index) => item.isTitle && indices.push(index));
+
+    return {
+      data,
+      indices,
+    };
   }, [allMusics, recentListenMusics]);
 
   return (
-    <SectionsContainer>
-      {PAGE_SECTIONS.map((ps, index) => (
-        <MusicSection
-          key={index}
-          title={ps.title}
-          content={ps.content}
-          iconName={ps.iconName}
-        />
-      ))}
-    </SectionsContainer>
+    <FlatList
+      data={data}
+      stickyHeaderIndices={indices}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: currentMusic ? 90 : 0 }}
+      keyExtractor={(item) => item.key}
+      renderItem={({ item }) => item.render()}
+      onEndReachedThreshold={0.7}
+      onEndReached={getMoreMusics}
+      removeClippedSubviews
+    />
   );
 };
 
