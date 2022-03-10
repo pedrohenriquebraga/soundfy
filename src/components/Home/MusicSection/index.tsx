@@ -17,4 +17,4 @@ const MusicSection: React.FC<IMusicSectionProps> = ({ content }) => {
   );
 };
 
-export default MusicSection;
+export default React.memo(MusicSection);

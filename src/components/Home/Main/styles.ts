@@ -13,3 +13,13 @@ export const SectionTitle = styled.Text`
   color: ${({ theme }) => theme.colors.black};
   background-color: ${({ theme }) => theme.colors.background};
 `;
+
+export const EmptyListContainer = styled.View`
+  margin: 40px 0;
+`
+
+export const EmptyListText = styled.Text`
+  text-align: center;
+  color: ${({ theme }) => theme.colors.heading};
+  font-family: ${fonts.text};
+`

@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
-import PresentationHeader from "../PresentationHeader";
-import { SectionTitle } from "./styles";
-import { Feather } from "@expo/vector-icons";
-import { usePlayer } from "../../../contexts/player";
-import { FlatList } from "react-native";
-import MusicCard from "../MusicCard";
 import MusicSection from "../MusicSection";
+import PresentationHeader from "../PresentationHeader";
+import { Feather } from "@expo/vector-icons";
+import { FlatList } from "react-native";
+import { usePlayer } from "../../../contexts/player";
+import { EmptyListContainer, EmptyListText, SectionTitle } from "./styles";
+import Loading from "../../Loading";
 
 interface IPageSection {
   key: string;
@@ -14,13 +14,20 @@ interface IPageSection {
 }
 
 const Main: React.FC = () => {
-  const { allMusics, recentListenMusics, currentMusic, getMoreMusics } = usePlayer();
+  const {
+    allMusics,
+    recentListenMusics,
+    currentMusic,
+    hasMoreMusics,
+    fetchingMusics,
+    getMoreMusics,
+  } = usePlayer();
 
   const { data, indices } = useMemo(() => {
     const data: IPageSection[] = [
       {
         key: "HEADER",
-        render: () => <PresentationHeader />
+        render: () => <PresentationHeader />,
       },
       {
         key: "RECENT_LISTEN",
@@ -33,7 +40,17 @@ const Main: React.FC = () => {
       },
       {
         key: "RECENT_LISTEN_LIST",
-        render: () => <MusicSection content={recentListenMusics} />,
+        render: () => (
+          <>
+            {recentListenMusics.length ? (
+              <MusicSection content={recentListenMusics} />
+            ) : (
+              <EmptyListContainer>
+                <EmptyListText>Nenhuma música todas recentemente</EmptyListText>
+              </EmptyListContainer>
+            )}
+          </>
+        ),
       },
       {
         key: "ALL_MUSICS",
@@ -66,10 +83,10 @@ const Main: React.FC = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ paddingBottom: currentMusic ? 90 : 0 }}
       keyExtractor={(item) => item.key}
+      ListFooterComponent={fetchingMusics && hasMoreMusics && <Loading />}
       renderItem={({ item }) => item.render()}
-      onEndReachedThreshold={0.7}
+      onEndReachedThreshold={0.2}
       onEndReached={getMoreMusics}
-      removeClippedSubviews
     />
   );
 };

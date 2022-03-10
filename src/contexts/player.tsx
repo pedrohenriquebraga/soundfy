@@ -16,6 +16,7 @@ interface IPlayerContext {
   currentMusic: ICurrentMusic;
   recentListenMusics: IMusicData[];
   hasMoreMusics: boolean;
+  fetchingMusics: boolean;
   isPlaying: boolean;
   isLooped: boolean;
   isMuted: boolean;
@@ -43,12 +44,10 @@ const PlayerProvider: React.FC = ({ children }) => {
   const [currentMusic, setCurrentMusic] = useState<ICurrentMusic>();
   const [hasMoreMusics, setHasMoreMusics] = useState(true);
   const [nextMusicPage, setNextMusicPage] = useState("");
+  const [fetchingMusics, setFetchingMusics] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
-  const [isLooped, setIsLooped] = usePersistedState(
-    "@SoundfyPlayer@isLooped",
-    false
-  );
+  const [isLooped, setIsLooped] = useState(false);
   const [recentListenMusics, setRecentListenMusics] = usePersistedState<
     IMusicData[]
   >("@SoundfyPlayer:recentMusicListen", []);
@@ -119,7 +118,7 @@ const PlayerProvider: React.FC = ({ children }) => {
   const getMusicAssets = async () => {
     const { assets, endCursor, hasNextPage, totalCount } =
       await MediaLibrary.getAssetsAsync({
-        first: 20,
+        first: 8,
         mediaType: "audio",
         after: nextMusicPage || undefined,
       });
@@ -131,8 +130,9 @@ const PlayerProvider: React.FC = ({ children }) => {
   };
 
   const getMoreMusics = async () => {
-    if (!hasMoreMusics) return;
+    if (!hasMoreMusics || fetchingMusics) return;
 
+    setFetchingMusics(true)
     const assets = await getMusicAssets();
     const newMusics = assets.map((a, index) =>
       processAssetMusic(a, index + allMusics.length)
@@ -152,6 +152,7 @@ const PlayerProvider: React.FC = ({ children }) => {
     );
 
     setAllMusics((old) => [...old, ...newMusics]);
+    setFetchingMusics(false)
   };
 
   const addRecentListenMusic = async (music: IMusicData) => {
@@ -264,6 +265,7 @@ const PlayerProvider: React.FC = ({ children }) => {
         isPlaying,
         isMuted,
         isLooped,
+        fetchingMusics,
         hasMoreMusics
       }}
     >
