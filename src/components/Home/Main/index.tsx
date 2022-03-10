@@ -85,7 +85,7 @@ const Main: React.FC = () => {
       keyExtractor={(item) => item.key}
       ListFooterComponent={fetchingMusics && hasMoreMusics && <Loading />}
       renderItem={({ item }) => item.render()}
-      onEndReachedThreshold={0.2}
+      onEndReachedThreshold={0.1}
       onEndReached={getMoreMusics}
     />
   );

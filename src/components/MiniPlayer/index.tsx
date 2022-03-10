@@ -77,4 +77,4 @@ const MiniPlayer: React.FC = () => {
   );
 };
 
-export default MiniPlayer;
+export default React.memo(MiniPlayer);

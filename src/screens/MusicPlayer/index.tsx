@@ -44,23 +44,14 @@ const MusicPlayer: React.FC = () => {
     <>
       <Header title="Tocando agora" showBack />
       <Container>
-        <Blur blurType="dark" blurAmount={5} />
+        <Blur blurType="dark" blurAmount={7} />
         <MusicInfosContainer>
           <MusicCoverContainer>
-            <MotiView
-              from={{ translateY: 0 }}
-              animate={{ translateY: -5 }}
-              exit={{ translateY: 0 }}
-              transition={{
-                loop: true,
-              }}
-            >
-              <MaterialIcons
-                name="music-note"
-                size={300}
-                color={colors.secondary}
-              />
-            </MotiView>
+            <MaterialIcons
+              name="music-note"
+              size={300}
+              color={colors.secondary}
+            />
           </MusicCoverContainer>
           <MusicName numberOfLines={2}>{currentMusic?.name}</MusicName>
         </MusicInfosContainer>

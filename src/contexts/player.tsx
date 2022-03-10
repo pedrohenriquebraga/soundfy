@@ -134,8 +134,9 @@ const PlayerProvider: React.FC = ({ children }) => {
 
     setFetchingMusics(true)
     const assets = await getMusicAssets();
+    const queueSize = (await TrackPlayer.getQueue()).length
     const newMusics = assets.map((a, index) =>
-      processAssetMusic(a, index + allMusics.length)
+      processAssetMusic(a, index + queueSize)
     );
 
     await TrackPlayer.add(
@@ -143,6 +144,7 @@ const PlayerProvider: React.FC = ({ children }) => {
         return {
           title: music.name,
           album: music.albumId,
+          artist: "Desconhecido",
           url: music.path,
           duration: music.duration,
           contentType: music.contentType,

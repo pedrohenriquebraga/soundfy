@@ -10,6 +10,7 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
   flex-direction: row;
+  z-index: 5;
 `;
 
 export const HeaderContentContainer = styled.View`
